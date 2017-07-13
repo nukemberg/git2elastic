@@ -1,0 +1,52 @@
+{
+  "mappings" : {
+    "file_stats": {
+      "dynamic_templates": [
+        {
+          "string": {
+            "match_mapping_type": "string",
+            "mapping": {
+              "type": "keyword"
+            }
+          }
+        }
+      ],
+      "properties": {
+        "date": { "type": "date" }
+      }
+    },
+    "commit" : {
+      "dynamic_templates": [
+        {
+          "string": {
+            "match_mapping_type": "string",
+            "mapping": {
+              "type": "keyword"
+            }
+          }
+        }
+      ],
+      "properties" : {
+        "date" : { "type" : "date" },
+        "message" : { "type" : "text" },
+        "stats_total" : {
+          "properties" : {
+            "deletions" : {
+              "type" : "long"
+            },
+            "files" : {
+              "type" : "long"
+            },
+            "insertions" : {
+              "type" : "long"
+            },
+            "lines" : {
+              "type" : "long"
+            }
+          }
+        },
+        "summary" : { "type" : "text" }
+      }
+    }
+  }
+}
