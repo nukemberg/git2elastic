@@ -11,7 +11,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'git2elastic = git2elasitc:git2elastic'
+            'git2elastic = git2elastic:git2elastic'
         ]
     },
     install_requires=[
