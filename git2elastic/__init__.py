@@ -1,3 +1,5 @@
+# MIT license, see LICENSE.txt
+
 import click
 import git
 import elasticsearch, elasticsearch.helpers
