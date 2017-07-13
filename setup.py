@@ -18,5 +18,8 @@ setup(
         'elasticsearch',
         'click',
         'gitpython'
-        ]
-    )
+        ],
+    package_data={
+        'git2elastic': ['*.json']
+    }
+)
