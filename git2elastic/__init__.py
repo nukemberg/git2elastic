@@ -59,8 +59,8 @@ def gen_docs(repo_name, commits):
                 'commit_type': commit.type,
                 'date': commit.authored_datetime.isoformat(),
                 'stats': commit.stats.total,
-                'files': [d.a_path for d in commit.diff()],
-                'files_by_change_type': files_by_change_type(commit.diff())
+                'files': list(map(str, commit.stats.files.keys())),
+                'merge': len(commit.parents) > 1
         }
         for file, stats in commit.stats.files.items():
             s = stats.copy()
@@ -82,17 +82,6 @@ def gen_docs(repo_name, commits):
 def git_log(repo_path, branch, since):
     repo = git.Repo(repo_path)
     return repo.iter_commits(branch, since=since)
-
-
-def files_by_change_type(diffs):
-    _dict = defaultdict(list)
-    for diff in diffs:
-        _dict[change_type(diff.change_type)].append(diff.a_path)
-    return _dict
-
-
-def change_type(t):
-    return t[0]
 
 
 if __name__ == '__main__':
