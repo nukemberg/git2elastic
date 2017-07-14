@@ -68,6 +68,8 @@ def gen_docs(repo_name, commits):
                 '_id': commit.hexsha + '-' + hashlib.sha1(file.encode()).hexdigest(),
                 '_type': 'file_stats',
                 'commit': commit.hexsha,
+                'path': file,
+                'stats': stats,
                 'repo': repo_name,
                 'date': commit.authored_datetime.isoformat(),
                 'author': {
