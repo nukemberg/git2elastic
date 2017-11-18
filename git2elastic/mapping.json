@@ -1,21 +1,6 @@
 {
   "mappings" : {
-    "file_stats": {
-      "dynamic_templates": [
-        {
-          "string": {
-            "match_mapping_type": "string",
-            "mapping": {
-              "type": "keyword"
-            }
-          }
-        }
-      ],
-      "properties": {
-        "date": { "type": "date" }
-      }
-    },
-    "commit" : {
+    "git": {
       "dynamic_templates": [
         {
           "string": {

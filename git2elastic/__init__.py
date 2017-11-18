@@ -40,7 +40,7 @@ def index(es, repo_name, index_name, commits):
         es,
         gen_docs(repo_name, commits),
         index=index_name,
-        doc_type='commit'
+        doc_type='git'
     )
 
 
@@ -66,7 +66,6 @@ def gen_docs(repo_name, commits):
             s = stats.copy()
             s.update({
                 '_id': commit.hexsha + '-' + hashlib.sha1(file.encode()).hexdigest(),
-                '_type': 'file_stats',
                 'commit': commit.hexsha,
                 'path': file,
                 'stats': stats,
