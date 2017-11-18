@@ -28,7 +28,7 @@ def infer_repo_name(path):
 @click.option('--es-mappings', help='ElasticSearch index mapping', type=click.File(), default=None)
 @click.argument('path', default='.', type=click.Path(exists=True, dir_okay=True, file_okay=True))
 def git2elastic(repo_name, es_index, branch, since, es_mappings, path):
-    es_mappings = json.loads(es_mappings if es_mappings else default_es_mappings())
+    es_mappings = json.load(es_mappings) if es_mappings else json.loads(default_es_mappings())
     repo_name = repo_name if repo_name else infer_repo_name(path)
     es = elasticsearch.Elasticsearch()
     es.indices.create(es_index, es_mappings, ignore=[400])
