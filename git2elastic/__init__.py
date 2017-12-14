@@ -48,6 +48,7 @@ def gen_docs(repo_name, commits):
     for commit in commits:
         yield {
                 '_id': commit.hexsha,
+                'type': 'commit',
                 'repo': repo_name,
                 'sha': commit.hexsha,
                 'author': {
@@ -58,7 +59,7 @@ def gen_docs(repo_name, commits):
                 'summary': commit.summary,
                 'commit_type': commit.type,
                 'date': commit.authored_datetime.isoformat(),
-                'stats': commit.stats.total,
+                'commit_stats': commit.stats.total,
                 'files': list(map(str, commit.stats.files.keys())),
                 'merge': len(commit.parents) > 1
         }
@@ -66,9 +67,10 @@ def gen_docs(repo_name, commits):
             s = stats.copy()
             s.update({
                 '_id': commit.hexsha + '-' + hashlib.sha1(file.encode()).hexdigest(),
+                'type': 'file_stats',
                 'commit': commit.hexsha,
                 'path': file,
-                'stats': stats,
+                'file_stats': stats,
                 'repo': repo_name,
                 'date': commit.authored_datetime.isoformat(),
                 'author': {
