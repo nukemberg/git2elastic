@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name='git2elasitc',
+    name='git2elastic',
     version='0.0.1',
     author='Avishai Ish-Shalom',
     author_email='avishai.ishshalom@gmail.com',
