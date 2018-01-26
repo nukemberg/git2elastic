@@ -20,6 +20,7 @@ def default_es_mappings():
 def infer_repo_name(path):
     return os.path.split(os.path.abspath(path))[1]
 
+
 @click.command()
 @click.option('--repo-name', help='Git repo name', default=None)
 @click.option('--es-index', help='ElasticSearch index name', required=True)

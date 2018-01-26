@@ -1,4 +1,13 @@
 {
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "path_analyzer": {
+          "tokenizer": "path_hierarchy"
+        }
+      }
+    }
+  },
   "mappings" : {
     "git": {
       "dynamic_templates": [
@@ -30,7 +39,17 @@
             }
           }
         },
-        "summary" : { "type" : "text" }
+        "summary" : { "type" : "text" },
+        "path": { 
+          "type": "text",
+          "analyzer": "path_analyzer",
+          "search_analyzer": "keyword",
+          "fields": {
+            "keyword": {
+              "type": "keyword"
+            }
+          }
+        }
       }
     }
   }
