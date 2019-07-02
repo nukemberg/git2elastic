@@ -41,7 +41,7 @@ def index(es, repo_name, index_name, commits):
         es,
         gen_docs(repo_name, commits),
         index=index_name,
-        doc_type='git'
+        doc_type='_doc'
     )
 
 

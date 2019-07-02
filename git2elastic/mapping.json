@@ -1,56 +1,71 @@
 {
-  "settings": {
-    "analysis": {
-      "analyzer": {
-        "path_analyzer": {
-          "tokenizer": "path_hierarchy"
+    "index_patterns": ["git*"],
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "path_analyzer": {
+                    "tokenizer": "path_hierarchy"
+                }
+            }
         }
-      }
+    },
+    "mappings": {
+        "dynamic_templates": [
+            {
+                "string": {
+                    "match_mapping_type": "string",
+                    "mapping": {
+                        "type": "keyword"
+                    }
+                }
+            }
+        ],
+        "properties": {
+            "date": {
+                "type": "date"
+            },
+            "message": {
+                "type": "text"
+            },
+            "stats_total": {
+                "properties": {
+                    "deletions": {
+                        "type": "long"
+                    },
+                    "files": {
+                        "type": "long"
+                    },
+                    "insertions": {
+                        "type": "long"
+                    },
+                    "lines": {
+                        "type": "long"
+                    }
+                }
+            },
+            "summary": {
+                "type": "text"
+            },
+            "files": {
+                "type": "text",
+                "analyzer": "path_analyzer",
+                "search_analyzer": "keyword",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword"
+                    }
+                }
+            },
+            "path": {
+                "type": "text",
+                "analyzer": "path_analyzer",
+                "search_analyzer": "keyword",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword"
+                    }
+                }
+            }
+        }
     }
-  },
-  "mappings" : {
-    "git": {
-      "dynamic_templates": [
-        {
-          "string": {
-            "match_mapping_type": "string",
-            "mapping": {
-              "type": "keyword"
-            }
-          }
-        }
-      ],
-      "properties" : {
-        "date" : { "type" : "date" },
-        "message" : { "type" : "text" },
-        "stats_total" : {
-          "properties" : {
-            "deletions" : {
-              "type" : "long"
-            },
-            "files" : {
-              "type" : "long"
-            },
-            "insertions" : {
-              "type" : "long"
-            },
-            "lines" : {
-              "type" : "long"
-            }
-          }
-        },
-        "summary" : { "type" : "text" },
-        "path": { 
-          "type": "text",
-          "analyzer": "path_analyzer",
-          "search_analyzer": "keyword",
-          "fields": {
-            "keyword": {
-              "type": "keyword"
-            }
-          }
-        }
-      }
-    }
-  }
 }
