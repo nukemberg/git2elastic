@@ -10,7 +10,6 @@ import itertools
 import hashlib
 from collections import defaultdict
 
-
 def default_es_mappings():
     resource_package = __name__
     resource_path = 'mapping.json'
@@ -26,12 +25,20 @@ def infer_repo_name(path):
 @click.option('--es-index', help='ElasticSearch index name', required=True)
 @click.option('--branch', '-b', help='Branch to index', default='master')
 @click.option('--since', '-s', help='When to start reading the git log', default='1970-01-01')
+@click.option('--es-url', help='ElasticSearch endpoint', default='http://localhost:9200/')
 @click.option('--es-mappings', help='ElasticSearch index mapping', type=click.File(), default=None)
-@click.argument('path', default='.', type=click.Path(exists=True, dir_okay=True, file_okay=True))
-def git2elastic(repo_name, es_index, branch, since, es_mappings, path):
+@click.option('--es-basic-auth', help='ElasticSearch basic authentication (username:password)', default=None)
+@click.option('--es-ssl-insecure', help='ElasticSearch SSL without certificate validation', is_flag=True)
+@click.argument('path', default='.', type=click.Path(exists=True, dir_okay=True, file_okay=False, resolve_path=True))
+def git2elastic(repo_name, es_index, branch, since, es_url, es_mappings, es_basic_auth, es_ssl_insecure, path):
     es_mappings = json.load(es_mappings) if es_mappings else json.loads(default_es_mappings())
     repo_name = repo_name if repo_name else infer_repo_name(path)
-    es = elasticsearch.Elasticsearch()
+    es_config = {}
+    if es_basic_auth:
+        es_config['http_auth'] = es_basic_auth.split(':')
+    if es_ssl_insecure:
+        es_config['verify_certs'] = False
+    es = elasticsearch.Elasticsearch([es_url], **es_config)
     es.indices.create(es_index, es_mappings, ignore=[400])
     index(es, repo_name, es_index, git_log(path, branch, since))
 
